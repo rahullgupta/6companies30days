@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int countPaths(int n, vector<vector<int>>& roads) {
+        vector<list<pair<int, int>>> adj(n);
+        for(auto i: roads){
+            adj[i[0]].push_back({i[1], i[2]});
+            adj[i[1]].push_back({i[0], i[2]});
+        }
+        vector<long long int> time(n, LONG_MAX);
+        time[0] = 0;
+        vector<long long int> path(n, 0);
+        path[0] = 1;
+        priority_queue<pair<long long int, int>, vector<pair<long long int, int>>, greater<pair<long long int, int>>> pq;
+        pq.push({0,0});
+        while(!pq.empty()){
+            long long int currTime = pq.top().first;
+            int v1 = pq.top().second;
+            pq.pop();
+            for(auto it: adj[v1]){
+                int v2 = it.first;
+                long long int timeTotravel = it.second;
+                if(currTime + timeTotravel < time[v2]){
+                    time[v2] = currTime + timeTotravel;
+                    pq.push({time[v2], v2});
+                    path[v2] = path[v1] % 1000000007;
+                }
+                else if(currTime + timeTotravel == time[v2])
+                    path[v2] = (path[v2] + path[v1]) % 1000000007;
+            }
+        }
+        return path[n-1];
+    }
+};
