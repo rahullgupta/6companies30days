@@ -1,0 +1,12 @@
+class Solution {
+public:
+    int trailingZeroes(int n) {
+        if(n == 0)
+            return 0;
+        int num = log(n) / log(5);
+        int count = 0;
+        for(int i = 1; i <= num; i++)
+            count += (n / pow(5, i));
+        return count;
+    }
+};
