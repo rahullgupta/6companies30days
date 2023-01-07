@@ -1,0 +1,28 @@
+class Solution {
+public:
+    void inOrder(TreeNode* root, vector<int> &v){
+        if(root == NULL)
+            return;
+        inOrder(root->left, v);
+        v.push_back(root->val);
+        inOrder(root->right, v);
+    }
+    vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
+        vector<int> v1, v2, v;
+        inOrder(root1, v1);
+        inOrder(root2, v2);
+        int i = 0, j = 0;
+        while(i < v1.size() && j < v2.size())
+        {
+            if(v1[i] < v2[j])
+                v.push_back(v1[i++]);
+            else
+                v.push_back(v2[j++]);
+        }
+        while(i < v1.size())
+            v.push_back(v1[i++]);
+        while(j < v2.size())
+            v.push_back(v2[j++]);
+        return v;
+    }
+};
