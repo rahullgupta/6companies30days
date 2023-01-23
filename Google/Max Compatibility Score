@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int compatibilityScore(vector<vector<int>>& students, vector<vector<int>>& mentors, int i, int j){
+        int count = 0;
+        for(int k = 0; k < students[i].size(); k++)
+        {
+            if(students[i][k] == mentors[j][k])
+                count++;
+        }
+        return count;
+    }
+    int solve(vector<vector<int>>& students, vector<vector<int>>& mentors, int index, vector<bool> &visited){
+        if(index >= students.size())
+            return 0;
+        int ans = INT_MIN;
+        for(int i = 0; i < mentors.size(); i++)
+        {
+            if(!visited[i])
+            {
+                visited[i] = true;
+                ans = max(ans, compatibilityScore(students, mentors, index, i) + solve(students, mentors, index + 1, visited));
+                visited[i] = false;
+            }
+        }
+        return ans;
+    }
+    int maxCompatibilitySum(vector<vector<int>>& students, vector<vector<int>>& mentors) {
+        vector<bool> visited(mentors.size(), false);
+        return solve(students, mentors, 0, visited);
+    }
+};
