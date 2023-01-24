@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int solve(TreeNode* root, unordered_map<TreeNode*, int> &dp)
+    {
+        if(root == NULL)
+            return 0;
+        if(dp.count(root))
+            return dp[root];
+        int val1 = 0, val2 = 0, val3 = 0, val4 = 0;
+        if(root->left)
+        {
+            val1 = solve(root->left->left, dp);
+            val2 = solve(root->left->right, dp);
+        }
+        if(root->right)
+        {
+            val3 = solve(root->right->left, dp);
+            val4 = solve(root->right->right, dp);
+        }
+        return (dp[root] = max(root->val + val1 + val2 + val3 + val4, solve(root->left, dp) + solve(root->right, dp)));
+    }
+    int rob(TreeNode* root) {
+        if(root == NULL)
+            return 0;
+        unordered_map<TreeNode*, int> dp;
+        return solve(root, dp);
+    }
+};
