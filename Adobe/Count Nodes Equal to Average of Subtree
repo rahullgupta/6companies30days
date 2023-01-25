@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int nodeInSubtree(TreeNode* root){
+        if(root == NULL)
+            return 0;
+        return 1 + nodeInSubtree(root->left) + nodeInSubtree(root->right);
+    }
+    int sumOfSubtree(TreeNode* root){
+        if(root == NULL)
+            return 0;
+        return root->val + sumOfSubtree(root->left) + sumOfSubtree(root->right);
+    }
+    int averageOfSubtree(TreeNode* root) {
+        if(root == NULL)
+            return 0;
+        int val1 = averageOfSubtree(root->left);
+        int val2 = averageOfSubtree(root->right);
+        if(root->val == (sumOfSubtree(root) / nodeInSubtree(root)))
+            return 1 + val1 + val2;
+        else
+            return val1 + val2;
+    }
+};
